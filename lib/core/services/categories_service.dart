@@ -1,16 +1,14 @@
 import 'package:store_app/core/networking/api.dart';
-import 'package:store_app/core/networking/server_links.dart';
 import 'package:store_app/features/models/product_model.dart';
 
-class CategoriesServices {
-  Future<List<ProductModel>> _getCategoriesProducts(
+class CategoriesService {
+  Future<List<ProductModel>> getCategoriesProducts(
       {required String categoryName}) async {
-    List<dynamic> data =
-        await Api().get(url: "$categoriesProductsUrl/$categoryName");
-    List<ProductModel> productList = [];
-    for (int i = 0; i < data.length; i++) {
-      productList.add(ProductModel.fromJson(data[i]));
-    }
-    return productList;
+    List<dynamic> data = await Api()
+        .get(url: 'https://fakestoreapi.com/products/category/$categoryName');
+
+    List<ProductModel> productsList =
+        data.map((item) => ProductModel.fromJson(item)).toList();
+    return productsList;
   }
 }
