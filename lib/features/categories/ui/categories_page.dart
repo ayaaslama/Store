@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/core/services/get_all_categories.dart';
-import 'package:store_app/features/pages/products_by_category_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/features/categories/logic/cubit/categories_cubit.dart';
+import 'package:store_app/features/categoriesProducts/ui/products_by_category_page.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({Key? key}) : super(key: key);
@@ -14,22 +15,22 @@ class CategoriesPage extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: AllCategoriesService().getAllCategories(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<dynamic> categories = snapshot.data!;
+      body: BlocBuilder<CategoriesCubit, CategoriesState>(
+        builder: (context, state) {
+          if (state is CategoriesLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is CategoriesLoaded) {
             return ListView.builder(
-              itemCount: categories.length,
+              itemCount: state.categories.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(categories[index]),
+                  title: Text(state.categories[index]),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProductsByCategoryPage(
-                          categoryName: categories[index],
+                          categoryName: state.categories[index],
                         ),
                       ),
                     );
@@ -37,10 +38,10 @@ class CategoriesPage extends StatelessWidget {
                 );
               },
             );
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (state is CategoriesError) {
+            return Center(child: Text('Error: ${state.errorMessage}'));
           }
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: Text('No categories found'));
         },
       ),
     );

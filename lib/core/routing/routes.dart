@@ -1,5 +1,5 @@
 class Routes {
-  static const String homePage = '/homePage';
+  static const String homePage = '/';
   static const String updateProductPage = '/updateProductPage';
   static const String favoritesPage = '/favoritesPage';
   static const String addProductPage = '/addProductPage';

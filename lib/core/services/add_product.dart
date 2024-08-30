@@ -1,4 +1,5 @@
 import 'package:store_app/core/networking/api.dart';
+import 'package:store_app/core/networking/server_links.dart';
 import 'package:store_app/features/models/product_model.dart';
 
 class AddProduct {
@@ -8,8 +9,7 @@ class AddProduct {
       required String description,
       required String image,
       required String category}) async {
-    Map<String, dynamic> data =
-        await Api().post(url: 'https://fakestoreapi.com/products', body: {
+    Map<String, dynamic> data = await Api().post(url: addProductUrl, body: {
       'title': title,
       'price': price,
       'description': description,
