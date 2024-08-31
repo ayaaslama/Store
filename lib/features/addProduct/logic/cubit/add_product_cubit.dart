@@ -27,7 +27,7 @@ class AddProductCubit extends Cubit<AddProductState> {
           image: image!,
           category: category!,
         );
-        emit(AddProductSuccess(product));
+        emit(AddProductLoaded(product));
       } catch (e) {
         emit(AddProductFailure(e.toString()));
       }

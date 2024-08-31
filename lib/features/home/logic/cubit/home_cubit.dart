@@ -17,7 +17,7 @@ class HomeCubit extends Cubit<HomeState> {
           await _allProductsService.getAllProducts();
       emit(HomeLoaded(products));
     } catch (e) {
-      emit(HomeError('Failed to load products: $e'));
+      emit(HomeFailure('Failed to load products: $e'));
     }
   }
 }

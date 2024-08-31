@@ -13,8 +13,8 @@ final class HomeLoaded extends HomeState {
   HomeLoaded(this.products);
 }
 
-final class HomeError extends HomeState {
+final class HomeFailure extends HomeState {
   final String errorMessage;
 
-  HomeError(this.errorMessage);
+  HomeFailure(this.errorMessage);
 }

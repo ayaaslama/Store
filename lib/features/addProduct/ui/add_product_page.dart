@@ -12,7 +12,7 @@ class AddProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AddProductCubit, AddProductState>(
       listener: (context, state) {
-        if (state is AddProductSuccess) {
+        if (state is AddProductLoaded) {
           Navigator.pop(context);
         } else if (state is AddProductFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -21,6 +21,7 @@ class AddProductPage extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final addProductCubit = context.read<AddProductCubit>();
         return ModalProgressHUD(
           inAsyncCall: state is AddProductLoading,
           child: Scaffold(
@@ -38,21 +39,21 @@ class AddProductPage extends StatelessWidget {
                     const SizedBox(height: 20),
                     CustomTextField(
                       onChanged: (data) {
-                        context.read<AddProductCubit>().title = data;
+                        addProductCubit.title = data;
                       },
                       hintText: 'Product Name',
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(
                       onChanged: (data) {
-                        context.read<AddProductCubit>().description = data;
+                        addProductCubit.description = data;
                       },
                       hintText: 'Description',
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(
                       onChanged: (data) {
-                        context.read<AddProductCubit>().price = data;
+                        addProductCubit.price = data;
                       },
                       hintText: 'Price',
                       inputType: TextInputType.number,
@@ -60,37 +61,22 @@ class AddProductPage extends StatelessWidget {
                     const SizedBox(height: 10),
                     CustomTextField(
                       onChanged: (data) {
-                        context.read<AddProductCubit>().image = data;
+                        addProductCubit.image = data;
                       },
                       hintText: 'Image URL',
                     ),
                     const SizedBox(height: 10),
-                    DropdownButtonFormField<String>(
-                      value: context.read<AddProductCubit>().category,
-                      items: [
-                        'electronics',
-                        'jewelery',
-                        "men's clothing",
-                        "women's clothing"
-                      ].map((String category) {
-                        return DropdownMenuItem<String>(
-                          value: category,
-                          child: Text(category),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        context.read<AddProductCubit>().category = value;
+                    CustomTextField(
+                      onChanged: (data) {
+                        addProductCubit.category = data;
                       },
-                      decoration: const InputDecoration(
-                        labelText: 'Category',
-                        border: OutlineInputBorder(),
-                      ),
+                      hintText: 'Category',
                     ),
                     const SizedBox(height: 20),
                     CustomButton(
                       text: 'Add',
                       onTap: () {
-                        context.read<AddProductCubit>().addProduct();
+                        addProductCubit.addProduct();
                       },
                     ),
                   ],

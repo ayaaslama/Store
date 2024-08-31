@@ -6,22 +6,13 @@ import 'package:store_app/core/widgets/bottom_navigation_bar.dart';
 import 'package:store_app/core/widgets/custom_card.dart';
 import 'package:store_app/features/home/logic/cubit/home_cubit.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<HomeCubit>().fetchProducts();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final homeCubit = context.read<HomeCubit>();
+    homeCubit.fetchProducts();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -31,7 +22,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
-          if (state is HomeError) {
+          if (state is HomeFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.errorMessage)),
             );
@@ -42,29 +33,22 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: CircularProgressIndicator());
           } else if (state is HomeLoaded) {
             final products = state.products;
-            return RefreshIndicator(
-              onRefresh: () async {
-                context.read<HomeCubit>().fetchProducts();
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, top: 65),
-                child: GridView.builder(
-                  itemCount: products.length,
-                  clipBehavior: Clip.none,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.5,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 100,
-                  ),
-                  itemBuilder: (context, index) {
-                    return CustomCard(product: products[index]);
-                  },
+            return Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 65),
+              child: GridView.builder(
+                itemCount: products.length,
+                clipBehavior: Clip.none,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.5,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 100,
                 ),
+                itemBuilder: (context, index) {
+                  return CustomCard(product: products[index]);
+                },
               ),
             );
-          } else if (state is HomeError) {
-            return Center(child: Text('Error: ${state.errorMessage}'));
           } else {
             return const Center(child: Text('No products available'));
           }

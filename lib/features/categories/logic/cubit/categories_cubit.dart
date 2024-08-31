@@ -16,7 +16,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       final categories = data.cast<String>();
       emit(CategoriesLoaded(categories));
     } catch (e) {
-      emit(CategoriesError('Failed to upload products: $e'));
+      emit(CategoriesFailure('Failed to upload products: $e'));
     }
   }
 }

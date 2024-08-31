@@ -8,7 +8,6 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteCubit() : super(FavoriteInitial());
   void toggleFavorite(ProductModel product) {
     List<ProductModel> currentFavorites = [];
-
     if (state is FavoriteSuccess) {
       currentFavorites =
           List<ProductModel>.from((state as FavoriteSuccess).favorites);

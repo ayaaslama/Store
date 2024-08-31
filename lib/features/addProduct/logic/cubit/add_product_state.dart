@@ -7,10 +7,10 @@ final class AddProductInitial extends AddProductState {}
 
 final class AddProductLoading extends AddProductState {}
 
-final class AddProductSuccess extends AddProductState {
+final class AddProductLoaded extends AddProductState {
   final ProductModel product;
 
-  AddProductSuccess(this.product);
+  AddProductLoaded(this.product);
 }
 
 final class AddProductFailure extends AddProductState {

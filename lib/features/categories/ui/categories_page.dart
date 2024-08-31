@@ -5,9 +5,9 @@ import 'package:store_app/features/categoriesProducts/ui/products_by_category_pa
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    context.read<CategoriesCubit>().fetchCategories();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Categories'),
@@ -38,7 +38,7 @@ class CategoriesPage extends StatelessWidget {
                 );
               },
             );
-          } else if (state is CategoriesError) {
+          } else if (state is CategoriesFailure) {
             return Center(child: Text('Error: ${state.errorMessage}'));
           }
           return const Center(child: Text('No categories found'));

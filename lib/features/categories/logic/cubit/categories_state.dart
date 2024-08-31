@@ -13,8 +13,8 @@ final class CategoriesLoaded extends CategoriesState {
   CategoriesLoaded(this.categories);
 }
 
-final class CategoriesError extends CategoriesState {
+final class CategoriesFailure extends CategoriesState {
   final String errorMessage;
 
-  CategoriesError(this.errorMessage);
+  CategoriesFailure(this.errorMessage);
 }
